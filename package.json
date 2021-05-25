@@ -1,0 +1,11 @@
+{
+  "name": "fantasybackend",
+  "version": "1.0.0",
+  "description": "Fantasy league backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "LiljaTom",
+  "license": "ISC"
+}
