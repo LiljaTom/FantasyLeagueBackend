@@ -32,7 +32,7 @@ playersRouter.get('/:id', (req, res, next) => {
     Player.findById(req.params.id)
         .then(player => {
             if(player) {
-                res,json(player.toJSON())
+                res.json(player.toJSON())
             } else {
                 res.status(404).end()
             }

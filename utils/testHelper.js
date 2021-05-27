@@ -5,25 +5,32 @@ const initialPlayers = [
     {
         name: 'Test Striker',
         number: 9,
-        position: 'St'
+        position: 'St',
     },
     {
         name: 'Test Midfielder',
         number: 10,
-        position: 'Mid'
+        position: 'Mid',
     },
     {
         name: 'Test Defender',
         number: 4,
-        position: 'Def'
+        position: 'Def',
     },
     {
         name: 'Test Goalkeeper',
         number: 1,
-        position: 'Gk'
+        position: 'Gk',
     }
 ]
 
+const nonExistingId = async() => {
+    const player = new Player({ name:'toremove', number: 12, position:'St'})
+    await player.save()
+    await player.remove()
+
+    return player._id.toString()
+}
 
 const playersInDb = async() => {
     const players = await Player.find({})
@@ -34,5 +41,6 @@ const playersInDb = async() => {
 
 module.exports = {
     initialPlayers,
-    playersInDb
+    playersInDb,
+    nonExistingId
 }
