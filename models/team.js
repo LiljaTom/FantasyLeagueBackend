@@ -23,6 +23,6 @@ teamSchema.set('toJSON', {
     }
 })
 
-playerSchema.plugin(uniqueValidator)
+teamSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('Team', teamSchema)

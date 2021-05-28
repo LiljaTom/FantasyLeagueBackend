@@ -57,7 +57,7 @@ describe('Delete request to api', () => {
 
 describe('Updating player', () => {
 
-    test('updates players name', async() => {
+    test('updates player name', async() => {
         const playersAtStart = await helper.playersInDb()
         const player = playersAtStart[0]
 
