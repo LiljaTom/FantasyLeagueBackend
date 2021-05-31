@@ -10,7 +10,8 @@ const Team = require('../models/team')
 
 beforeEach(async() => {
     await Team.deleteMany({})
-    await Team.insertMany(helper.initialTeams)
+    const teams = await helper.initialTeamsWithPlayers()
+    await Team.insertMany(teams)
 })
 
 describe('Get request to the team api', () => {
@@ -73,6 +74,8 @@ describe('Updating team', () => {
 
         expect(edited.name).toBe('Updated name')
     })
+
+
 })
 
 describe('Viewing a certain team', () => {
@@ -134,6 +137,22 @@ describe('Posting team', () => {
         await api
             .post('/api/teams')
             .send(team)
+            .expect(400)
+
+        const playersAtEnd = await helper.teamsInDb()
+
+        expect(playersAtEnd).toHaveLength(helper.initialTeams.length)
+    })
+
+    test('fails with status code 400 if non unique team name', async() => {
+
+        const nonUnique = {
+            name: 'Kasiysi'
+        }
+
+        await api
+            .post('/api/teams')
+            .send(nonUnique)
             .expect(400)
 
         const playersAtEnd = await helper.teamsInDb()

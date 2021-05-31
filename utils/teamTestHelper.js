@@ -1,22 +1,51 @@
 const Team = require('../models/team')
+const Player = require('../models/player')
 
 const initialTeams = [
     {
-        name: 'Kasiysi'
+        name: 'Kasiysi',
+        players: []
     },
     {
-        name: 'Lepa'
+        name: 'Lepa',
+        players: []
     },
     {
-        name: 'Klubi'
+        name: 'Klubi',
+        players: []
     },
     {
-        name: 'Honka kovaluu'
+        name: 'Honka kovaluu',
+        players: []
     },
     {
-        name: 'Fireblast 4000i'
+        name: 'Fireblast 4000i',
+        players: []
     }
 ]
+
+const initialTeamsWithPlayers = async() => {
+    await Player.deleteMany({})
+    const playerIds = await playerIDs()
+    const players = initialTeams
+
+    players[0].players = playerIds
+
+    return players
+}
+
+const playerIDs = async() => {
+    const player1 = new Player({ name: 'Test player', number: 32, position: 'St'})
+    const player2 = new Player({ name: 'Test defender', number: 3, position: 'Def'})
+
+    await player1.save()
+    await player2.save()
+
+    const ids = [player1._id.toString(), player2._id.toString()]
+
+    return ids
+}
+
 
 const nonExistingId = async() => {
     const team = new Team({ name: 'toRemove' })
@@ -35,5 +64,6 @@ const teamsInDb = async() => {
 module.exports = {
     initialTeams,
     teamsInDb,
-    nonExistingId
+    nonExistingId,
+    initialTeamsWithPlayers
 }
