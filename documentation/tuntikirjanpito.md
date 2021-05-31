@@ -6,4 +6,5 @@
 | 26.5.2021  |  5  | Team ominaisuuden aloitus, testaamisen aloitus, backendin ensimmäinen raakaversio, lisää testejä |
 | 27.5.2021  |  2  | Lisää testejä |
 | 28.5.2021  | 4  | Team ominaisuuden laajennus ja testejä sille, suunnittelua |
-| yht. | 13 | |
+| 31.5.2021 |  1  | Division ominaisuuden aloitus |
+| yht. | 14 | |
