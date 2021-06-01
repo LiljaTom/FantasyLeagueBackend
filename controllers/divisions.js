@@ -49,7 +49,7 @@ divisionsRouter.put('/:id', (req, res, next) => {
 
     const division = {
         name: body.name,
-        teams: body.name
+        teams: body.teams
     }
 
     Division.findByIdAndUpdate(req.params.id, division, { new: true })

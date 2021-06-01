@@ -7,4 +7,5 @@
 | 27.5.2021  |  2  | Lisää testejä |
 | 28.5.2021  | 4  | Team ominaisuuden laajennus ja testejä sille, suunnittelua |
 | 31.5.2021 |  1  | Division ominaisuuden aloitus |
-| yht. | 14 | |
+| 1.6.2021 | 2 | kontrollereiden päivitys ja testejä |
+| yht. | 15 | |

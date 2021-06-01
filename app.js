@@ -12,6 +12,7 @@ const middleware = require('./utils/middleware')
 //Routers
 const playersRouter = require('./controllers/players')
 const teamsRouter = require('./controllers/teams')
+const divisionsRouter = require('./controllers/divisions')
 
 
 logger.info(`Connecting to ${config.MONGODB_URI}`)
@@ -32,6 +33,7 @@ app.use(middleware.requestLogger)
 //Routers
 app.use('/api/players', playersRouter)
 app.use('/api/teams', teamsRouter)
+app.use('/api/divisions', divisionsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
