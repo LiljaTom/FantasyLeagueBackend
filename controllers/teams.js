@@ -1,16 +1,13 @@
 const teamsRouter = require('express').Router()
-const team = require('../models/team')
 const Team = require('../models/team')
 
-teamsRouter.get('/', (req, res, next) => {
-    Team.find({})
-        .then(teams => {
-            res.json(teams.map(team => team.toJSON()))
-        })
-        .catch(error => next(error))
+teamsRouter.get('/', async(req, res) => {
+    const teams = await Team.find({})
+
+    res.json(teams.map(team => team.toJSON())).populate('players')
 })
 
-teamsRouter.post('/', (req, res, next) => {
+teamsRouter.post('/', async(req, res) => {
     const body = req.body
 
     const team = new Team({
@@ -18,46 +15,30 @@ teamsRouter.post('/', (req, res, next) => {
         players: []
     })
 
-    team.save()
-        .then(savedTeam => {
-            res.json(savedTeam.toJSON())
-        })
-        .catch(error => next(error))
+    const savedTeam = await team.save()
+
+    res.json(savedTeam.toJSON())
 })
 
-teamsRouter.get('/:id', (req, res, next) => {
-    Team.findById(req.params.id)
-        .then(team => {
-            if(team) {
-                res.json(team.toJSON())
-            } else {
-                res.status(404).end()
-            }
-        })
-        .catch(error => next(error))
-})
-
-teamsRouter.delete('/:id', (req, res, next) => {
-    Team.findByIdAndRemove(req.params.id)
-        .then(() => {
-            res.status(204).end()
-        })
-        .catch(error => next(error))
-})
-
-teamsRouter.put('/:id', (req, res, next) => {
-    const body = req.body
-
-    const team = {
-        name: body.name,
-        players: body.name
+teamsRouter.get('/:id', async(req, res) => {   
+    const team = await Team.findById(req.params.id)
+    if(team) {
+        res.json(team.toJSON())
+    } else {
+        res.status(404).end()
     }
+})
 
-    Team.findByIdAndUpdate(req.params.id, team, { new: true })
-        .then(updatedTeam => {
-            res.json(updatedTeam.toJSON())
-        })
-        .catch(error => next(error))
+teamsRouter.delete('/:id', async(req, res) => {
+    await Team.findByIdAndRemove(req.params.id)
+    res.status(204).end()
+})
+
+teamsRouter.put('/:id', async(req, res) => {
+    const team = req.body
+
+    const updatedTeam = await Team.findByIdAndUpdate(req.params.id, team, { new: true })
+    res.json(updatedTeam.toJSON())
 })
 
 

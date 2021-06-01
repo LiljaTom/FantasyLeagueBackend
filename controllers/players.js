@@ -1,16 +1,13 @@
 const playersRouter = require('express').Router()
 const Player = require('../models/player')
 
+playersRouter.get('/', async(req, res) => {
+    const players = await Player.find({})
 
-playersRouter.get('/', (req, res, next) => {
-    Player.find({})
-        .then(players => {
-            res.json(players.map(player => player.toJSON()))
-        })
-        .catch(error => next(error))
+    res.json(players.map(player => player.toJSON())).populate('team')
 })
 
-playersRouter.post('/', (req, res, next) => {
+playersRouter.post('/', async(req, res) => {
     const body = req.body
 
     const player = new Player({
@@ -20,50 +17,30 @@ playersRouter.post('/', (req, res, next) => {
         team: body.teamId
     })
 
-    player.save()
-        .then(savedPlayer => {
-            res.json(savedPlayer.toJSON())
-        })
-        .catch(error => next(error))
+    const savedPlayer = await player.save()
 
+    res.json(savedPlayer.toJSON())
 })
 
-playersRouter.get('/:id', (req, res, next) => {
-    Player.findById(req.params.id)
-        .then(player => {
-            if(player) {
-                res.json(player.toJSON())
-            } else {
-                res.status(404).end()
-            }
-        })
-        .catch(error => next(error))
-})
-
-playersRouter.delete('/:id', (req, res, next) => {
-    Player.findByIdAndRemove(req.params.id)
-        .then(() => {
-            res.status(204).end()
-        })
-        .catch(error => next(error))
-})
-
-playersRouter.put('/:id', (req, res, next) => {
-    const body = req.body
-
-    const player = {
-        name: body.name,
-        number: body.number,
-        position: body.position
+playersRouter.get('/:id', async(req, res) => {
+    const player = await Player.findById(req.params.id)
+    if(player) {
+        res.json(player.toJSON())
+    } else {
+        res.status(404).end()
     }
-
-    Player.findByIdAndUpdate(req.params.id, player, { new: true })
-        .then(updatedPlayer => {
-            res.json(updatedPlayer.toJSON())
-        })
-        .catch(error => next(error))
 })
 
+playersRouter.delete('/:id', async(req, res) => {
+   await Player.findByIdAndRemove(req.params.id)
+   res.status(204).end()
+})
 
+playersRouter.put('/:id', async(req, res) => {
+    const player = req.body
+
+    const updatedPlayer = await Player.findByIdAndUpdate(req.params.id, player, { new: true })
+    res.json(updatedPlayer.toJSON())
+})
 
 module.exports = playersRouter
