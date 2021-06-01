@@ -1,0 +1,22 @@
+POST http://localhost:3001/api/divisions
+Content-Type: application/json
+
+{
+    "name": "Etelä-Länsi"
+}
+
+###
+POST http://localhost:3001/api/divisions
+Content-Type: application/json
+
+{
+    "name": "Kakkonen"
+}
+
+###
+POST http://localhost:3001/api/divisions
+Content-Type: application/json
+
+{
+    "name": "Ykkönen"
+}

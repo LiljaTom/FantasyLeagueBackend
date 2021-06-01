@@ -1,0 +1,28 @@
+POST http://localhost:3001/api/players
+Content-Type: application/json
+
+{
+    "name": "Development Striker",
+    "number": 12,
+    "position": "St"
+}
+
+###
+POST http://localhost:3001/api/players
+Content-Type: application/json
+
+{
+    "name": "Development Midfielder",
+    "number": 10,
+    "position": "Mid"
+}
+
+###
+POST http://localhost:3001/api/players
+Content-Type: application/json
+
+{
+    "name": "Development Defender",
+    "number": 4,
+    "position": "Def"
+}

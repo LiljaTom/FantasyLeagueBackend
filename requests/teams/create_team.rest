@@ -1,0 +1,22 @@
+POST http://localhost:3001/api/teams
+Content-Type: application/json
+
+{
+    "name": "Development Kasiysi"
+}
+
+###
+POST http://localhost:3001/api/teams
+Content-Type: application/json
+
+{
+    "name": "Grani"
+}
+
+###
+POST http://localhost:3001/api/teams
+Content-Type: application/json
+
+{
+    "name": "Lepa"
+}
