@@ -13,6 +13,7 @@ const middleware = require('./utils/middleware')
 const playersRouter = require('./controllers/players')
 const teamsRouter = require('./controllers/teams')
 const divisionsRouter = require('./controllers/divisions')
+const gamesRouter = require('./controllers/games')
 
 
 logger.info(`Connecting to ${config.MONGODB_URI}`)
