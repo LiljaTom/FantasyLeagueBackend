@@ -7,5 +7,6 @@
 | 27.5.2021  |  2  | Lisää testejä |
 | 28.5.2021  | 4  | Team ominaisuuden laajennus ja testejä sille, suunnittelua |
 | 31.5.2021 |  1  | Division ominaisuuden aloitus |
-| 1.6.2021 | 3 | kontrollereiden päivitys, testejä, REST client, game model ja kontrolleri |
-| yht. | 15 | |
+| 1.6.2021 | 4 | kontrollereiden päivitys, testejä, REST client, game model ja kontrolleri |
+| 2.6.2021 | 2 | Game testejä ja helper |
+| yht. | 20 | |

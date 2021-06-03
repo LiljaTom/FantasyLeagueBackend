@@ -35,6 +35,7 @@ app.use(middleware.requestLogger)
 app.use('/api/players', playersRouter)
 app.use('/api/teams', teamsRouter)
 app.use('/api/divisions', divisionsRouter)
+app.use('/api/games', gamesRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
