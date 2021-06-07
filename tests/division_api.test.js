@@ -3,12 +3,14 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 
-const helper = require('../utils/testhelpers/divisionTestHelper')
+const divisionHelper = require('../utils/testhelpers/divisionTestHelper')
+const helper = require('../utils/testhelpers/testHelper')
+
 const Division = require('../models/division')
 
 beforeEach(async() => {
-    await Division.deleteMany({})
-    await Division.insertMany(helper.initialDivisions)
+    await helper.clearDb()
+    await Division.insertMany(await divisionHelper.initialDivisions())
 })
 
 describe('Get request to the division api', () => {
@@ -23,7 +25,7 @@ describe('Get request to the division api', () => {
     test('all divisions are returned', async() => {
         const res = await api.get('/api/divisions')
 
-        expect(res.body).toHaveLength(helper.initialDivisions.length)
+        expect(res.body).toHaveLength(3)
     })
 
 
@@ -43,7 +45,7 @@ describe('Delete request to the division api', () => {
 
         expect(divisions).not.toContain(toRemove)
 
-        expect(divisions).toHaveLength(helper.initialDivisions.length - 1)
+        expect(divisions).toHaveLength(2)
     })
 })
 
@@ -82,7 +84,7 @@ describe('Viewing a certain division', () => {
     })
 
     test('fails with status code 404 if non existing id', async() => {
-        const nonExistingId = await helper.nonExistingId()
+        const nonExistingId = await divisionHelper.nonExistingId()
 
         await api
             .get(`/api/divisions/${nonExistingId}`)
@@ -117,7 +119,7 @@ describe('Posting division', () => {
 
         expect(divisionNames).toContain('new division')
 
-        expect(divisionsAtEnd).toHaveLength(helper.initialDivisions.length + 1)
+        expect(divisionsAtEnd).toHaveLength(4)
     })
 
     test('fails with status code 400 if missing name', async() => {
@@ -130,7 +132,7 @@ describe('Posting division', () => {
 
         const divisionsAtEnd = await helper.divisionsInDb()
 
-        expect(divisionsAtEnd).toHaveLength(helper.initialDivisions.length)
+        expect(divisionsAtEnd).toHaveLength(3)
     })
 })
 

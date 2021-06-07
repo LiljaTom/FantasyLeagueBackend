@@ -10,5 +10,5 @@
 | 1.6.2021 | 4 | kontrollereiden päivitys, testejä, REST client, game model ja kontrolleri |
 | 2.6.2021 | 2 | Game testejä ja helper |
 | 3.6.2021 | 2 | Kontrollereiden päivitystä |
-| 7.6.2021 | 4 | Testien päivitystä |
-| yht. | 26 | |
+| 7.6.2021 | 6 | Testien päivitystä ja suunnittelua|
+| yht. | 28 | |

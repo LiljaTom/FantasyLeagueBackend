@@ -13,7 +13,8 @@ divisionsRouter.post('/', async(req, res) => {
 
     const division = new Division({
         name: body.name,
-        teams: []
+        teams: body.teams,
+        games: []
     })
 
     const savedDivision = await division.save()
@@ -32,6 +33,16 @@ divisionsRouter.get('/:id', async(req, res) => {
 
 divisionsRouter.delete('/:id', async(req, res) => {
     const division = await Division.findById(req.params.id)
+
+    /*
+    division.teams.forEach(t => {
+        const team = await Team.findById(t)
+        delete team.division
+        await team.save()
+    })
+    */
+
+
     await division.remove()
 
     res.status(204).end()

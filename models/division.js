@@ -10,6 +10,12 @@ const divisionSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Team'
         }
+    ],
+    games: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Game'
+        }
     ]
 })
 

@@ -1,25 +1,33 @@
 const Division = require('../../models/division')
 
-const initialDivisions = [
-    {
-        name: 'Liiga',
-        teams: []
-    },
-    {
-        name: 'Ykkönen',
-        teams: []
-    },
-    {
-        name: 'Kakkonen',
-        teams: []
-    }
-]
+const helper = require('../testhelpers/testHelper')
 
-const divisionsInDb = async() => {
-    const divisions = await Division.find({})
-
-    return divisions.map(division => division.toJSON())
+const initialDivisions = async() => {
+    return[
+        {
+            name: 'Liiga',
+            teams: [
+                await helper.teamId('Hjk'),
+                await helper.teamId('Tps')
+            ]
+        },
+        {
+            name: 'Ykkönen',
+            teams: [
+                await helper.teamId('Haka'),
+                await helper.teamId('Vjs')
+            ]
+        },
+        {
+            name: 'Kakkonen',
+            teams: [
+                await helper.teamId('Fc Espoo'),
+                await helper.teamId('Tpv')
+            ]
+        }
+    ]
 }
+
 
 const nonExistingId = async() => {
     const division = new Division({name: 'toRemove', teams: []})
@@ -31,6 +39,5 @@ const nonExistingId = async() => {
 
 module.exports = {
     initialDivisions,
-    divisionsInDb,
     nonExistingId
 }
