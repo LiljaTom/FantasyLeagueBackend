@@ -3,13 +3,14 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 
-const helper = require('../utils/testHelper')
+const helper = require('../utils/testHelpers/testHelper')
+const playerHelper = require('../utils/testhelpers/playerTestHelper')
 
 const Player = require('../models/player')
 
 beforeEach(async () => {
-    await Player.deleteMany({})
-    await Player.insertMany(helper.initialPlayers)
+    await helper.clearDb()
+    await Player.insertMany(await playerHelper.initialPlayers())
 })
 
 describe('Get request to the api', () => {
@@ -24,7 +25,7 @@ describe('Get request to the api', () => {
     test('all players are returned', async() => {
         const res = await api.get('/api/players')
 
-        expect(res.body).toHaveLength(helper.initialPlayers.length)
+        expect(res.body).toHaveLength(4)
     })
 
     test('returns a certain player', async() => {
@@ -32,7 +33,7 @@ describe('Get request to the api', () => {
         
         const players = res.body.map(player => player.name)
 
-        expect(players).toContain('Test Striker')
+        expect(players).toContain('Test striker')
     })
 })
 
@@ -129,7 +130,7 @@ describe('Viewing a certain player', () => {
     })
 
     test('fails with statuscode 404 if non existing id', async() => {
-        const nonExistingId = await helper.nonExistingId()
+        const nonExistingId = await playerHelper.nonExistingPlayerId()
 
         await api
             .get(`/api/players/${nonExistingId}`)
@@ -166,7 +167,7 @@ describe('Posting player', () => {
 
         expect(players).toContain('new player')
 
-        expect(playersAtEnd).toHaveLength(helper.initialPlayers.length + 1)
+        expect(playersAtEnd).toHaveLength(5)
     })
 
     test('fails with status code 400 if missing name', async() => {
@@ -182,7 +183,7 @@ describe('Posting player', () => {
             .expect(400)
 
         const playersAtEnd = await helper.playersInDb()
-        expect(playersAtEnd).toHaveLength(helper.initialPlayers.length)
+        expect(playersAtEnd).toHaveLength(4)
 
     })
 
@@ -199,7 +200,7 @@ describe('Posting player', () => {
             .expect(400)
 
         const playersAtEnd = await helper.playersInDb()
-        expect(playersAtEnd).toHaveLength(helper.initialPlayers.length)
+        expect(playersAtEnd).toHaveLength(4)
 
     })
 
@@ -216,7 +217,7 @@ describe('Posting player', () => {
             .expect(400)
 
         const playersAtEnd = await helper.playersInDb()
-        expect(playersAtEnd).toHaveLength(helper.initialPlayers.length)
+        expect(playersAtEnd).toHaveLength(4)
 
     })
 
@@ -234,14 +235,12 @@ describe('Posting player', () => {
             .expect(400)
 
         const playersAtEnd = await helper.playersInDb()
-        expect(playersAtEnd).toHaveLength(helper.initialPlayers.length)
+        expect(playersAtEnd).toHaveLength(4)
 
     })
     
 
 })
-
-
 
 afterAll(() => {
     mongoose.connection.close()

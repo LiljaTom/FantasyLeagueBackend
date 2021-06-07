@@ -1,8 +1,9 @@
 const divisionsRouter = require('express').Router()
 const Division = require('../models/division')
+const Team = require('../models/team')
 
 divisionsRouter.get('/', async(req, res) => {
-    const divisions = await Division.find({})
+    const divisions = await Division.find({}).populate('team')
 
     res.json(divisions.map(division => division.toJSON()))
 })
@@ -30,7 +31,8 @@ divisionsRouter.get('/:id', async(req, res) => {
 })
 
 divisionsRouter.delete('/:id', async(req, res) => {
-    await Division.findByIdAndRemove(req.params.id)
+    const division = await Division.findById(req.params.id)
+    await division.remove()
 
     res.status(204).end()
 })
