@@ -9,5 +9,6 @@
 | 31.5.2021 |  1  | Division ominaisuuden aloitus |
 | 1.6.2021 | 4 | kontrollereiden päivitys, testejä, REST client, game model ja kontrolleri |
 | 2.6.2021 | 2 | Game testejä ja helper |
-| 3.6.2021 | 1 | Kontrollereiden päivitys |
-| yht. | 21 | |
+| 3.6.2021 | 2 | Kontrollereiden päivitystä |
+| 7.6.2021 | 1 | Testien päivitystä |
+| yht. | 23 | |

@@ -12,7 +12,11 @@ const teamSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Player'
         }
-    ]
+    ],
+    division: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Division'
+    }
 })
 
 teamSchema.set('toJSON', {

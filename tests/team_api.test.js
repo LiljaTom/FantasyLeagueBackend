@@ -3,15 +3,15 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 
-const helper = require('../utils/teamTestHelper')
+const teamHelper = require('../utils/testhelpers/teamTestHelper')
+const helper = require('../utils/testhelpers/testHelper')
 
 const Team = require('../models/team')
 
 
 beforeEach(async() => {
-    await Team.deleteMany({})
-    const teams = await helper.initialTeamsWithPlayers()
-    await Team.insertMany(teams)
+    await helper.clearDb()
+    await Team.insertMany(await teamHelper.initialTeams())
 })
 
 describe('Get request to the team api', () => {
@@ -26,7 +26,7 @@ describe('Get request to the team api', () => {
     test('all teams are returned', async() => {
         const res = await api.get('/api/teams')
 
-        expect(res.body).toHaveLength(helper.initialTeams.length)
+        expect(res.body).toHaveLength(3)
     })
 
     test('returns a certain team', async() => {
@@ -93,7 +93,7 @@ describe('Viewing a certain team', () => {
     })
 
     test('fails with statuscode 404 if non existing team id', async() => {
-        const nonExistingId = await helper.nonExistingId()
+        const nonExistingId = await teamHelper.nonExistingTeamId()
 
         await api
             .get(`/api/teams/${nonExistingId}`)
@@ -114,7 +114,9 @@ describe('Posting team', () => {
     test('is succesfull with valid team data', async() => {
 
         const team = {
-            name: 'Kasiysi p95'
+            name: 'Kasiysi p95',
+            players: [],
+            division: await helper.divisionId('Test division')
         }
 
         await api
@@ -128,26 +130,27 @@ describe('Posting team', () => {
 
         expect(teams).toContain('Kasiysi p95')
 
-        expect(teamsAtEnd).toHaveLength(helper.initialTeams.length + 1)
+        expect(teamsAtEnd).toHaveLength(4)
     })
 
     test('fails with statuscode 400 if missing name', async() => {
-        const team = {}
+        const team = {division: await helper.divisionId('Test division')}
 
         await api
             .post('/api/teams')
             .send(team)
             .expect(400)
 
-        const playersAtEnd = await helper.teamsInDb()
+        const teamsAtEnd = await helper.teamsInDb()
 
-        expect(playersAtEnd).toHaveLength(helper.initialTeams.length)
+        expect(teamsAtEnd).toHaveLength(3)
     })
 
     test('fails with status code 400 if non unique team name', async() => {
 
         const nonUnique = {
-            name: 'Kasiysi'
+            name: 'Kasiysi',
+            division: await helper.divisionId('Test division')
         }
 
         await api
@@ -155,9 +158,9 @@ describe('Posting team', () => {
             .send(nonUnique)
             .expect(400)
 
-        const playersAtEnd = await helper.teamsInDb()
+        const teamsAtEnd = await helper.teamsInDb()
 
-        expect(playersAtEnd).toHaveLength(helper.initialTeams.length)
+        expect(teamsAtEnd).toHaveLength(3)
     })
 })
 
