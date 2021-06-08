@@ -11,4 +11,5 @@
 | 2.6.2021 | 2 | Game testejä ja helper |
 | 3.6.2021 | 2 | Kontrollereiden päivitystä |
 | 7.6.2021 | 6 | Testien päivitystä ja suunnittelua|
-| yht. | 28 | |
+| 8.6.2021 | 2 | Dokumentaatiota sovelluksen toiminnasta |
+| yht. | 30 | |
