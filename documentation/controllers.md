@@ -1,8 +1,8 @@
-### How controllers should work in this backend
+# How controllers should work in this backend
 
 ## Teams
 
-# Basic team routes
+### Basic team routes
 
 ```
 GET /api/teams
@@ -39,7 +39,7 @@ PUT /api/teams/:id
 - Updates team's basic info
 - Only team admin can do this
 
-# Team and players
+### Team and players
 
 ```
 GET /api/teams/players
@@ -57,7 +57,7 @@ POST /api/teams/players
 ## Players
 
 
-# Basic player routes
+### Basic player routes
 
 ```
 GET /api/players
