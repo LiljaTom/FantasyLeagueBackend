@@ -11,6 +11,8 @@
     - Only team's games
 - Can have division
     - Ref Division table
+- Should have user as admin
+    - Ref user table
 
 ## Players
 

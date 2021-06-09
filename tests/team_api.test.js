@@ -7,12 +7,10 @@ const teamHelper = require('../utils/testhelpers/teamTestHelper')
 const helper = require('../utils/testhelpers/testHelper')
 
 const Team = require('../models/team')
-const Division = require('../models/division')
-
 
 beforeEach(async() => {
-    await helper.clearDb()
-    await Team.insertMany(await teamHelper.initialTeams())
+    await Team.deleteMany({})
+    await Team.insertMany(teamHelper.initialTeams)
 })
 
 describe('Get request to the team api', () => {
@@ -27,7 +25,7 @@ describe('Get request to the team api', () => {
     test('all teams are returned', async() => {
         const res = await api.get('/api/teams')
 
-        expect(res.body).toHaveLength(3)
+        expect(res.body).toHaveLength(teamHelper.initialTeams.length)
     })
 
     test('returns a certain team', async() => {
@@ -55,21 +53,6 @@ describe('Delete request to team api', () => {
 
         expect(teams).toHaveLength(teamsAtStart.length - 1)
     })
-
-    test('removes team from division', async() => {
-        const teamsAtStart = await helper.teamsInDb()
-        const toRemove = teamsAtStart[0]
-
-        await api
-        .delete(`/api/teams/${toRemove.id}`)
-        .expect(204)
-
-        const division = await Division.findById(toRemove.division)
-
-        expect(division.teams).not.toContain(toRemove)
-
-
-    })
 })
 
 describe('Updating team', () => {
@@ -90,26 +73,6 @@ describe('Updating team', () => {
 
         expect(edited.name).toBe('Updated name')
     })
-
-    test('updates division', async() => {
-        const teamsAtStart = await helper.teamsInDb()
-        const team = teamsAtStart[0]
-
-        const division = await helper.divisionId('Kolmonen')
-
-        const updatedTeam = {...team, division: division}
-
-        await api
-            .put(`/api/teams/${team.id}`)
-            .send(updatedTeam)
-            .expect(200)
-
-        const teamsAtEnd = await helper.teamsInDb()
-        const edited = teamsAtEnd.find(t => t.id === team.id)
-
-        expect(edited.division.toString()).toBe(division)
-    })
-
 
 })
 
@@ -146,12 +109,12 @@ describe('Viewing a certain team', () => {
 
 describe('Posting team', () => {
 
-    test('is succesfull with valid team data', async() => {
+    test('is succesfull with data containing only a name', async() => {
+
+        const teamsAtStart = await helper.teamsInDb()
 
         const team = {
-            name: 'Kasiysi p95',
-            players: [],
-            division: await helper.divisionId('Test division')
+            name: 'Kasiysi p95'
         }
 
         await api
@@ -165,11 +128,13 @@ describe('Posting team', () => {
 
         expect(teams).toContain('Kasiysi p95')
 
-        expect(teamsAtEnd).toHaveLength(4)
+        expect(teamsAtEnd).toHaveLength(teamsAtStart.length + 1)
     })
 
     test('fails with statuscode 400 if missing name', async() => {
-        const team = {division: await helper.divisionId('Test division')}
+        const team = {}
+
+        const teamsAtStart = await helper.teamsInDb()
 
         await api
             .post('/api/teams')
@@ -178,24 +143,7 @@ describe('Posting team', () => {
 
         const teamsAtEnd = await helper.teamsInDb()
 
-        expect(teamsAtEnd).toHaveLength(3)
-    })
-
-    test('fails with status code 400 if non unique team name', async() => {
-
-        const nonUnique = {
-            name: 'Kasiysi',
-            division: await helper.divisionId('Test division')
-        }
-
-        await api
-            .post('/api/teams')
-            .send(nonUnique)
-            .expect(400)
-
-        const teamsAtEnd = await helper.teamsInDb()
-
-        expect(teamsAtEnd).toHaveLength(3)
+        expect(teamsAtEnd).toHaveLength(teamsAtStart.length)
     })
 })
 

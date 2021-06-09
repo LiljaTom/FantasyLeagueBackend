@@ -18,12 +18,14 @@ POST /api/teams
 - Need to be logged in as user
 - Doesn't save any references, expect admin
 - User who creates the team will be team's admin
+- Request body should contain:
+    - Name of the team
 
 ```
 GET /api/teams/:id
 ```
 - Returns all possible data associated with the team
-- Populates all?
+- Populates everything?
 
 ```
 DELETE /api/teams/:id
@@ -38,6 +40,8 @@ PUT /api/teams/:id
 ```
 - Updates team's basic info
 - Only team admin can do this
+- Request body should contain:
+    - All information we want to update
 
 ### Team and players
 

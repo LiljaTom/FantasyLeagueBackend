@@ -1,11 +1,9 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
 
 const teamSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     players: [
         {
@@ -16,7 +14,13 @@ const teamSchema = mongoose.Schema({
     division: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Division'
-    }
+    },
+    games: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Game'
+        }
+    ]
 })
 
 teamSchema.set('toJSON', {
@@ -27,6 +31,5 @@ teamSchema.set('toJSON', {
     }
 })
 
-teamSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('Team', teamSchema)
