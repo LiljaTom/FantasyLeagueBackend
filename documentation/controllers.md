@@ -81,7 +81,6 @@ PUT /api/players/:id
     - Like name or number
 - Need to be logged in
 - Only team's admin can do this.
-- Should not update game stats. (Check game routes)
 
 ```
 DELETE /api/players/:id

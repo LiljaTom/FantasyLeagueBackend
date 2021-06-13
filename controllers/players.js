@@ -1,25 +1,11 @@
 const playersRouter = require('express').Router()
 const Player = require('../models/player')
+const Team = require('../models/team')
 
 playersRouter.get('/', async(req, res) => {
     const players = await Player.find({})
 
     res.json(players.map(player => player.toJSON())).populate('team')
-})
-
-playersRouter.post('/', async(req, res) => {
-    const body = req.body
-
-    const player = new Player({
-        name: body.name,
-        number: body.number,
-        position: body.position,
-        team: body.teamId
-    })
-
-    const savedPlayer = await player.save()
-
-    res.json(savedPlayer.toJSON())
 })
 
 playersRouter.get('/:id', async(req, res) => {
@@ -32,8 +18,15 @@ playersRouter.get('/:id', async(req, res) => {
 })
 
 playersRouter.delete('/:id', async(req, res) => {
-   await Player.findByIdAndRemove(req.params.id)
-   res.status(204).end()
+    const player = await Player.findById(req.params.id)
+    const team = await Team.findById(player.team)
+
+    team.players = team.players.filter(p => p.id.toString() !== req.params.id.toString())
+
+    await team.save()
+    await player.remove()
+
+    res.status(204).end()
 })
 
 playersRouter.put('/:id', async(req, res) => {

@@ -13,4 +13,5 @@
 | 7.6.2021 | 6 | Testien päivitystä ja suunnittelua|
 | 8.6.2021 | 2 | Dokumentaatiota sovelluksen toiminnasta |
 | 9.6.2021 | 4 | Teams päivitystä, dokumentaatiota |
-| yht. | 34 | |
+| 13.6.2021 | 1 | Players päivitystä |
+| yht. | 35 | |
