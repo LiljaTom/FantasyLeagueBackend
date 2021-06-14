@@ -14,6 +14,7 @@ const playersRouter = require('./controllers/players')
 const teamsRouter = require('./controllers/teams')
 const divisionsRouter = require('./controllers/divisions')
 const gamesRouter = require('./controllers/games')
+const usersRouter = require('./controllers/users')
 
 
 logger.info(`Connecting to ${config.MONGODB_URI}`)
@@ -36,6 +37,7 @@ app.use('/api/players', playersRouter)
 app.use('/api/teams', teamsRouter)
 app.use('/api/divisions', divisionsRouter)
 app.use('/api/games', gamesRouter)
+app.use('/api/users', usersRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

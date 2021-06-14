@@ -167,7 +167,7 @@ GET /api/divisions/:id/games
 ```
 POST /api/divisions/:id/games
 ```
-- Creates game to the division and two teams from it
+- Creates game to the division
 - Adds game to teams
 - Only for admin
 
@@ -193,3 +193,12 @@ DELETE /api/games/:id
 ```
 - Removes game from database
 - Also removes game reference from other tables
+
+## Users
+
+```
+POST /api/users
+```
+- Creates user
+- Request body should contain:
+    - username, name, password

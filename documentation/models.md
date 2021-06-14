@@ -48,3 +48,14 @@
     - Number
 - Game state, is game played or not
     - Boolean
+
+## Users
+
+- Should have username
+    - Unique
+- Should have name
+    - Unique
+- Should have passwordhash
+    - Should be atleast 7 length
+- Can have division
+- Can have team

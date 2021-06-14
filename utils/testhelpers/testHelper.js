@@ -2,6 +2,7 @@ const Team = require('../../models/team')
 const Player = require('../../models/player')
 const Division = require('../../models/division')
 const Game = require('../../models/game')
+const User = require('../../models/user')
 
 
 
@@ -53,6 +54,12 @@ const divisionId = async(name) => {
     return division._id.toString()
 }
 
+const usersInDb = async() => {
+    const users = await User.find({})
+
+    return users.map(u => u.toJSON())
+}
+
 const clearDb = async() => {
     await Team.deleteMany({})
     await Player.deleteMany({})
@@ -68,5 +75,6 @@ module.exports = {
     playerId,
     teamId,
     divisionId,
-    clearDb
+    clearDb,
+    usersInDb
 }
