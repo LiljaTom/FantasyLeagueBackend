@@ -202,3 +202,12 @@ POST /api/users
 - Creates user
 - Request body should contain:
     - username, name, password
+
+## Login
+
+```
+POST /api/login
+```
+- Used to login
+- Request body should contain:
+    - username, password

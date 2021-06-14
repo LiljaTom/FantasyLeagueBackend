@@ -14,4 +14,5 @@
 | 8.6.2021 | 2 | Dokumentaatiota sovelluksen toiminnasta |
 | 9.6.2021 | 4 | Teams päivitystä, dokumentaatiota |
 | 13.6.2021 | 3 | Players päivitystä ja user toteutusta |
-| yht. | 37 | |
+| 14.6.2021 | 2 | Login toiminnallisuus |
+| yht. | 38 | |
