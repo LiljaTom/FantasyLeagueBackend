@@ -15,8 +15,19 @@ const userSchema = mongoose.Schema({
     passwordHash: {
         type: String,
         required: true
-    }
-
+    },
+    teams: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Team'
+        }
+    ],
+    divisions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Division'
+        }
+    ]
 })
 
 userSchema.set('toJSON', {

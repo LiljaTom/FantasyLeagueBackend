@@ -203,6 +203,11 @@ POST /api/users
 - Request body should contain:
     - username, name, password
 
+```
+DELETE /api/users
+```
+- User can remove itself from database
+
 ## Login
 
 ```

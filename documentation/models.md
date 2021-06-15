@@ -57,5 +57,5 @@
     - Unique
 - Should have passwordhash
     - Should be atleast 7 length
-- Can have division
-- Can have team
+- Can have divisions
+- Can have teams
