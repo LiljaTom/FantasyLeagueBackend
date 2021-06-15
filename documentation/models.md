@@ -13,6 +13,7 @@
     - Ref Division table
 - Should have user as admin
     - Ref user table
+    - There could be multiple admin users
 
 ## Players
 

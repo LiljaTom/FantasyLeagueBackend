@@ -15,5 +15,5 @@
 | 9.6.2021 | 4 | Teams päivitystä, dokumentaatiota |
 | 13.6.2021 | 3 | Players päivitystä ja user toteutusta |
 | 14.6.2021 | 6 | Login toiminnallisuus, user päivitystä ja testejä |
-| 15.6.2021 | 1 | User testejä |
-| yht. | 45 | |
+| 15.6.2021 | 6 | User testejä, team päivitystä, team testejä |
+| yht. | 49 | |

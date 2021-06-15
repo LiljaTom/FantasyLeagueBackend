@@ -14,7 +14,6 @@ GET /api/teams
 POST /api/teams
 ```
 - Saves team to the database
-- Just contains basic team data.
 - Need to be logged in as user
 - Doesn't save any references, expect admin
 - User who creates the team will be team's admin
@@ -30,15 +29,14 @@ GET /api/teams/:id
 ```
 DELETE /api/teams/:id
 ```
-- Removes team from database, and removes all references
-- Should not delete players, division or games
-- Used when we want to just remove the team
+- Removes team from database
+- Removes team from admin.teams
 - Only team admin can do this
 
 ```
 PUT /api/teams/:id
 ```
-- Updates team's basic info
+- Updates team
 - Only team admin can do this
 - Request body should contain:
     - All information we want to update
