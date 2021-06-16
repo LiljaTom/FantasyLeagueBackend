@@ -44,20 +44,35 @@ PUT /api/teams/:id
 ### Team and players
 
 ```
-GET /api/teams/:id/players
-```
-- Retuns all players associated with the team as json
-
-```
 POST /api/teams/:id/players
 ```
 - Creates player associated to the team
 - Updates team's player list
 - Only team admin can do this
+- Request body should contain:
+    - Player's name, number and position
 
+```
+GET /api/teams/:teamId/players/:playerId
+```
+- Returns all possible data associated with the player
+
+```
+PUT /api/teams/:teamId/players/:playerId
+```
+- Used when we want to update player's basic info
+    - Like name or number
+- Need to be logged in
+- Only team's admin can do this.
+
+```
+DELETE /api/teams/:teamId/players/:playerId
+```
+- Removes player from database. Also removes references from associated data. (e.g. removes player id from team.players)
+- Need to be logged in
+- Only team's admin can do this.
 
 ## Players
-
 
 ### Basic player routes
 
@@ -67,25 +82,6 @@ GET /api/players
 - Returns all players as json
 - Doesn't populate (will this save a time?)
 
-```
-GET /api/players/:id
-```
-- Returns all possible data associated with the player
-
-```
-PUT /api/players/:id
-```
-- Used when we want to update player's basic info
-    - Like name or number
-- Need to be logged in
-- Only team's admin can do this.
-
-```
-DELETE /api/players/:id
-```
-- Removes player from database. Also removes references from associated data. (e.g. removes player id from team.players)
-- Need to be logged in
-- Only team's admin can do this.
 
 ## Divisions
 

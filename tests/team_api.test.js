@@ -61,7 +61,6 @@ describe('Delete request to team api', () => {
         const teams = await helper.teamsInDb()
 
         expect(teams).not.toContain(toRemove)
-
         expect(teams).toHaveLength(teamsAtStart.length - 1)
     })
 
@@ -247,6 +246,151 @@ describe('Posting team', () => {
         const teamsAtEnd = await helper.teamsInDb()
 
         expect(teamsAtEnd).toHaveLength(teamsAtStart.length)
+    })
+})
+
+describe('Posting player to the team', () => {
+
+    test('is succesfull if token matches team and data is correct', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const playersAtStart = await helper.playersInDb()
+        const team = teamsAtStart[0]
+
+        const player = {
+            name: 'Player',
+            number: 23,
+            position: 'St'
+        }
+
+        await api
+            .post(`/api/teams/${team.id}/players`)
+            .send(player)
+            .set(headers)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const playersAtEnd = await helper.playersInDb()
+        expect(playersAtEnd).toHaveLength(playersAtStart.length + 1)
+
+    })
+
+    test('fails with statuscode 401 if missing token', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const playersAtStart = await helper.playersInDb()
+        const team = teamsAtStart[0]
+
+        const player = {
+            name: 'Player',
+            number: 23,
+            position: 'St'
+        }
+
+        await api
+            .post(`/api/teams/${team.id}/players`)
+            .send(player)
+            .expect(401)
+
+        const playersAtEnd = await helper.playersInDb()
+        expect(playersAtEnd).toHaveLength(playersAtStart.length)
+    })
+
+    test('fails with statuscode 401 if invalid token', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const playersAtStart = await helper.playersInDb()
+        const team = teamsAtStart[1]
+
+        const player = {
+            name: 'Player',
+            number: 23,
+            position: 'St'
+        }
+
+        await api
+            .post(`/api/teams/${team.id}/players`)
+            .send(player)
+            .set(headers)
+            .expect({ error: 'only admin can create player to the team' })
+            .expect(401)
+
+        const playersAtEnd = await helper.playersInDb()
+        expect(playersAtEnd).toHaveLength(playersAtStart.length)
+    })
+})
+
+
+describe('Viewing a certain player in the team', () => {
+    test('returns a correct player', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const team = teamsAtStart[0]
+        const players = await helper.playersInDb()
+        const player = players[0]
+
+
+        const result = await api
+            .get(`/api/teams/${team.id}/players/${player.id}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        expect(result.body).toEqual(JSON.parse(JSON.stringify(player)))
+    })
+})
+
+describe('Deleting player from team', () => {
+
+    test('is succesfull if admin and valid request', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const playersAtStart = await helper.playersInDb()
+        const team = teamsAtStart[0]
+        const playerToRemove = team.players[0]
+
+        await api
+            .delete(`/api/teams/${team.id}/players/${playerToRemove}`)
+            .set(headers)
+            .expect(204)
+
+        const teamsAtEnd = await helper.teamsInDb()
+        const playersAtEnd = await helper.playersInDb()
+        const editedTeam = teamsAtEnd[0]
+
+        expect(playersAtEnd).toHaveLength(playersAtStart.length - 1)
+        expect(editedTeam.players).toHaveLength(team.players.length - 1)
+    })
+
+    test('fails with statuscode 401 if missing token', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const playersAtStart = await helper.playersInDb()
+        const team = teamsAtStart[0]
+        const playerToRemove = team.players[0]
+
+        await api
+            .delete(`/api/teams/${team.id}/players/${playerToRemove}`)
+            .expect(401)
+
+        const teamsAtEnd = await helper.teamsInDb()
+        const playersAtEnd = await helper.playersInDb()
+        const editedTeam = teamsAtEnd[0]
+
+        expect(playersAtEnd).toHaveLength(playersAtStart.length )
+        expect(editedTeam.players).toHaveLength(team.players.length )
+    })
+
+    test('fails with statuscode 401 if invalid token', async() => {
+        const teamsAtStart = await helper.teamsInDb()
+        const playersAtStart = await helper.playersInDb()
+        const team = teamsAtStart[1]
+        const playerToRemove = team.players[0]
+
+        await api
+            .delete(`/api/teams/${team.id}/players/${playerToRemove}`)
+            .set(headers)
+            .expect(401)
+
+        const teamsAtEnd = await helper.teamsInDb()
+        const playersAtEnd = await helper.playersInDb()
+        const editedTeam = teamsAtEnd[1]
+
+        expect(playersAtEnd).toHaveLength(playersAtStart.length)
+        expect(editedTeam.players).toHaveLength(team.players.length)
     })
 })
 
